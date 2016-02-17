@@ -49,11 +49,11 @@ void longAddInto( fpn_t *a, fpn_t *b ) {
 // subtract 'b' from 'a'
 void longSubFrom( fpn_t *m /* minuend */, fpn_t *s /* subtrahend */ ) {
 	uint16_t i, index;
-	uint8_t carry = 0;
+	uint8_t carry = 0; // subtract '-1' from the next digit
 
 	// 'm' must be larger than 's' to avoid negative values
 	if( isLarger( m, s) == -1 ) {
-		toFpn(65535, m);
+		toFpn(65535, m); // signal error
 		return;
 	}
 
@@ -61,7 +61,19 @@ void longSubFrom( fpn_t *m /* minuend */, fpn_t *s /* subtrahend */ ) {
 	for( i=0; i < PRECISION; i++ ) {
 		index = (PRECISION-1) -i;
 
-		if( !carry ) {
+		if( carry ) {
+			// we have a carry so the minuend must be larger by 1
+			if( m->frac[index] >= (s->frac[index] +1) ) {
+				carry = 0;
+				m->frac[index] -= (s->frac[index] +1);
+			}
+			else {
+				carry = 1;
+				m->frac[index] += 10;
+				m->frac[index] -= (s->frac[index] +1);
+			}
+		}
+		else {
 			if( m->frac[index] >= s->frac[index] ) {
 				carry = 0;
 				m->frac[index] -= s->frac[index];
@@ -71,26 +83,15 @@ void longSubFrom( fpn_t *m /* minuend */, fpn_t *s /* subtrahend */ ) {
 				m->frac[index] += 10;
 				m->frac[index] -= s->frac[index];
 			}
-		}
-		else {
-			if( m->frac[index] >= (s->frac[index]+1) ) {
-				carry = 0;
-				m->frac[index] -= (s->frac[index] +1);
-			}
-			else {
-				carry = 1;
-				m->frac[index] += 10;
-				m->frac[index] -= (s->frac[index] +1);
-			}
 		} // carry
 	} // for
 
 	// last digit subtracts from integer part
-	if( !carry ) {
-		m->num -= s->num; // positive by definition
+	if( carry ) {
+		m->num -= (s->num +1);
 	}
 	else {
-		m->num -= (s->num +1);
+		m->num -= s->num; // positive by definition
 	}
 	return;
 }
