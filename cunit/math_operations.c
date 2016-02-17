@@ -379,16 +379,15 @@ void test_subFrom2_0( void ) {
 	fpn_t res;
 
 	// 1.0 - 0.1 = 0.9
-	toFpn( 1, &tmp1 );
+	toFpn( 1, &tmp1 ); // 1.0
 
 	toFpn( 0, &tmp2 );
-	tmp1.frac[0] = 1; // 0.1
+	tmp2.frac[0] = 1; // 0.1
 
 	toFpn( 0, &res );
-	tmp2.frac[0] = 9; // 0.9
+	res.frac[0] = 9; // 0.9
 
 	longSubFrom( &tmp1, &tmp2 );
-	printf("\n\n%i.%i%i\n", tmp1.num, tmp1.frac[0], tmp1.frac[1] );
 	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 )
 }
 
@@ -412,15 +411,3 @@ void test_subFrom2_1( void ) {
 	longSubFrom( &tmp, &one );
 	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 )
 }
-
-
-
-
-
-
-
-
-
-
-
-
