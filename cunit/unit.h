@@ -37,11 +37,19 @@ void test_subFrom1_1( void );
 void test_subFrom2_0( void );
 void test_subFrom2_1( void );
 
-int init_longMulInto_suite( void );
-int clean_longMulInto_suite( void );
-void test_mulInto0( void );
-void test_mulInto1( void );
-void test_mulInto2( void );
+int init_longMul_suite( void );
+int clean_longMul_suite( void );
+void test_mul0_0( void );
+void test_mul0_1( void );
+void test_mul1_0( void );
+void test_mul1_1( void );
+void test_mul2_0( void );
+void test_mul2_1( void );
+void test_mul2_2( void );
+void test_mul3_0( void );
+void test_mul3_1( void );
+void test_mul4_0( void );
+void test_mul4_1( void );
 
 int init_longDivFrom_suite( void );
 int clean_longDivFrom_suite( void );

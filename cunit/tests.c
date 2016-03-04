@@ -163,24 +163,64 @@ int __wrap_main (void) {
 
 
 
-	pSuite = CU_add_suite("longMulInto()", init_longMulInto_suite, clean_longMulInto_suite);
+	pSuite = CU_add_suite("longMulInto()", init_longMul_suite, clean_longMul_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "multiply before decimal point", test_mulInto0) ) {
+	if ( NULL == CU_add_test(pSuite, "1.0 * 1.0 = 1.0", test_mul0_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "multiply after decimal point", test_mulInto1) ) {
+	if ( NULL == CU_add_test(pSuite, "1.0 * 0.1 = 0.1", test_mul0_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "multiply before and after decimal point", test_mulInto2) ) {
+
+
+	if ( NULL == CU_add_test(pSuite, "0.0 * 1.0 = 0.0", test_mul1_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
+	if ( NULL == CU_add_test(pSuite, "0.0 * 0.1 = 0.0", test_mul1_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+	if ( NULL == CU_add_test(pSuite, "0.1 * 0.1 = 0.01", test_mul2_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.1 * 0.0...01 = 0.0", test_mul2_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "10.0 * 0.01 = 0.1", test_mul2_2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+	if ( NULL == CU_add_test(pSuite, "2.0 * 0.05 = 0.1", test_mul3_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "2.0 * 0.5 = 1.0", test_mul3_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+	if ( NULL == CU_add_test(pSuite, "2.0 * 33000.0 -> ERROR_OVERFLOW", test_mul4_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+
+
 
 
 
