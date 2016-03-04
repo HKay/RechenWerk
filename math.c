@@ -98,6 +98,39 @@ void longSubFrom( fpn_t *m /* minuend */, fpn_t *s /* subtrahend */ ) {
 
 
 
+error_e longMultiply( fpn_t *a, fpn_t *b, fpn_t *result ) {
+	// We need double precision to account for all the possible carries
+	uint16_t i, j;
+	uint8_t digit_buf;
+	dfpn_t fpn_buf;
+
+	toDFpn( 0, &fpn_buf );
+
+	for( i=0; i<PRECISION; i++ ) {
+		for( j=0; i<PRECISION; i++ ) {
+			// start from the very back and multiply to the front
+			// a bit further every time
+			digit_buf = a->frac[PRECISION-1 -j] * b->frac[PRECISION-1 -j];
+			fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] = fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] + digit_buf;
+			while( fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] > 9) {
+				if( (i+j) > DOUBLE_PRECISION ) { // TODO: CHECK LIMITS
+					fpn_buf.num += 1; // move carry over decimal point
+				}
+				else {
+					fpn_buf.frac[DOUBLE_PRECISION-1 -i -j -1] += 1; // move carry
+				}
+				fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] -= 10;
+			}
+		}
+	}
+
+	return ERROR_OVERFLOW;
+}
+
+
+
+
+
 void longDivFrom( fpn_t *numerator, fpn_t *denominator ) {
 	uint16_t i;
 	uint16_t temp1_index;

@@ -2,6 +2,7 @@
 #define __UTIL_H__
 
 void toFpn( uint16_t in, fpn_t *out );
+void toDFpn( uint16_t in, dfpn_t *out );
 int8_t isLarger( fpn_t *a, fpn_t *b );
 
 #else

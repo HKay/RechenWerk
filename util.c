@@ -23,6 +23,18 @@ void toFpn( uint16_t in, fpn_t *out ) {
 	}
 }
 
+// convert number to double precision fixed point number
+void toDFpn( uint16_t in, dfpn_t *out ) {
+	uint16_t i;
+
+	out->num = in;
+
+	// zero out the rest of the number
+	for( i=0; i < PRECISION*2; i++ ) {
+		out->frac[i] = 0;
+	}
+}
+
 
 
 // compare two fixed point numbers
