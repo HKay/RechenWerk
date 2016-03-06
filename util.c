@@ -45,7 +45,7 @@ error_e toFpn( uint16_t pre, uint16_t post, fpn_t out ) {
 		buffer /= 10;
 		digits++;
 	}
-	if( digits > PRE_POINT_DIGITS-1 ) {
+	if( digits > POST_POINT_DIGITS-1 ) {
 		// no space left
 		return ERROR_OVERFLOW;
 	}
