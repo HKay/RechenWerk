@@ -31,9 +31,11 @@ int clean_fpn_suite( void ) {
 void test_fpn0( void ) {
 	// convert 0 to fpn
 	uint16_t i;
+	error_e e;
 	fpn_t tmp;
-	toFpn( 0, 0, tmp);
+	e = toFpn(0, 0, tmp);
 
+	CU_ASSERT_EQUAL( e, OK );
 	// 'check' for uninitialised memory
 	for( i=0; i < PRECISION; i++ ) {
 		CU_ASSERT_EQUAL( tmp[i], 0 );
@@ -45,9 +47,11 @@ void test_fpn0( void ) {
 void test_fpn1( void ) {
 	// convert regular number to fpn
 	uint16_t i;
+	error_e e;
 	fpn_t tmp;
-	toFpn( 5, 3, tmp );
+	e = toFpn( 5, 3, tmp );
 
+	CU_ASSERT_EQUAL( e, OK );
 	// check for uninitialised memory
 	for( i=0; i < POST_POINT_DIGITS-2; i++ ) {
 		CU_ASSERT_EQUAL( tmp[i], 0 );
@@ -67,7 +71,9 @@ void test_fpn2( void ) {
 	// convert maximum number the function supports to fpn
 	uint16_t i;
 	fpn_t tmp;
-	toFpn( 0xffff, 0xffff, tmp); // 65535.65535
+	error_e e;
+	e = toFpn( 0xffff, 0xffff, tmp); // 65535.65535
+	CU_ASSERT_EQUAL( e, OK );
 
 	CU_ASSERT_EQUAL( tmp[POST_POINT_DIGITS-5], 5);
 	CU_ASSERT_EQUAL( tmp[POST_POINT_DIGITS-4], 3);

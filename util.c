@@ -14,7 +14,7 @@
 
 
 // convert number to fixed point number
-void toFpn( uint16_t pre, uint16_t post, fpn_t out ) {
+error_e toFpn( uint16_t pre, uint16_t post, fpn_t out ) {
 	// this is only used by the testsuit -> no error handling
 	// basically we count the digits in the numbers handed to us
 	// and copy them into the array
@@ -33,6 +33,10 @@ void toFpn( uint16_t pre, uint16_t post, fpn_t out ) {
 		out[(POST_POINT_DIGITS) +i] = buffer%10;
 		buffer /= 10;
 	}
+	if( buffer > 9 ) {
+		// no space left
+		return ERROR_OVERFLOW;
+	}
 
 	// count number of digits;
 	buffer = post;
@@ -41,12 +45,19 @@ void toFpn( uint16_t pre, uint16_t post, fpn_t out ) {
 		buffer /= 10;
 		digits++;
 	}
+	if( digits > PRE_POINT_DIGITS-1 ) {
+		// no space left
+		return ERROR_OVERFLOW;
+	}
+
 
 	buffer = post;
 	for( i=(POST_POINT_DIGITS-1)-digits; i<POST_POINT_DIGITS; i++ ) {
 		out[i] = buffer%10;
 		buffer /= 10;
 	}
+
+	return OK;
 }
 /*
 
