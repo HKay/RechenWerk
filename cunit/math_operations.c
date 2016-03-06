@@ -13,41 +13,44 @@
 #include "../util.h"
 #include "unit.h"
 
+
+
 //
 // longAddInto()
 //
-int init_longAddInto_suite( void ) {
+int init_longAdd_suite( void ) {
 	return 0; // success
 }
 
 
 
-int clean_longAddInto_suite( void ) {
+int clean_longAdd_suite( void ) {
 	return 0; // success
 }
 
 
 
-void test_addInto0_0( void ) {
+void test_add0_0( void ) {
 	// adding before the decimal point
 	fpn_t zero;
 	fpn_t one;
 	fpn_t tmp;
 	fpn_t res;
 
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
+	toFpn( 0, 0, zero );
+	toFpn( 1, 0, one );
 
 	// 1+2=3
-	toFpn( 2, &tmp );
-	toFpn( 3, &res );
-	longAddInto( &tmp, &one );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 );
+	toFpn( 2, 0, tmp );
+	toFpn( 3, 0, res );
+	longAdd( tmp, one, tmp );
+	CU_ASSERT_EQUAL( isLarger(tmp, res), 0 );
+longPrint( tmp );
 }
 
 
-
-void test_addInto0_1( void ) {
+/*
+void test_add0_1( void ) {
 	fpn_t zero;
 	fpn_t one;
 	fpn_t tmp;
@@ -59,13 +62,13 @@ void test_addInto0_1( void ) {
 	// 0+0=0
 	toFpn( 0, &tmp );
 	toFpn( 0, &res );
-	longAddInto( &tmp, &zero );
+	longAdd( &tmp, &zero, &tmp );
 	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 );
 }
 
 
 
-void test_addInto0_2( void ) {
+void test_add0_2( void ) {
 	fpn_t zero;
 	fpn_t one;
 	fpn_t tmp;
@@ -77,13 +80,13 @@ void test_addInto0_2( void ) {
 	// 65535+1=0
 	toFpn( 65535, &tmp );
 	toFpn( 0, &res );
-	longAddInto( &tmp, &one );
+	longAdd( &tmp, &one, &tmp );
 	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 );
 }
 
 
 
-void test_addInto1_0( void ) {
+void test_add1_0( void ) {
 	// adding after the decimal point
 	fpn_t tmp1;
 	fpn_t tmp2;
@@ -98,13 +101,13 @@ void test_addInto1_0( void ) {
 	tmp1.frac[PRECISION-1] = 1;
 	tmp2.frac[PRECISION-1] = 2;
 	res.frac[PRECISION-1] = 3;
-	longAddInto( &tmp1, &tmp2 );
+	longAdd( &tmp1, &tmp2, &tmp1 );
 	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 );
 }
 
 
 
-void test_addInto1_1( void ) {
+void test_add1_1( void ) {
 	// adding after the decimal point
 	fpn_t tmp1;
 	fpn_t tmp2;
@@ -119,13 +122,13 @@ void test_addInto1_1( void ) {
 	tmp1.frac[1] = 9;
 	tmp2.frac[1] = 1;
 	res.frac[0] = 1;
-	longAddInto( &tmp1, &tmp2 );
+	longAdd( &tmp1, &tmp2, &tmp1 );
 	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 );
 }
 
 
 
-void test_addInto1_2( void ) {
+void test_add1_2( void ) {
 	fpn_t tmp1;
 	fpn_t tmp2;
 	fpn_t res;
@@ -411,3 +414,4 @@ void test_subFrom2_1( void ) {
 	longSubFrom( &tmp, &one );
 	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 )
 }
+*/

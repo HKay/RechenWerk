@@ -16,6 +16,7 @@ CUNIT_OBJ_FILES := $(CUNIT_SRC_FILES:cunit/%.c=$(BROOT_CUNIT)/%.o)
 
 RELEASE_DEFINES =  -DCOMPILE_DATE=\"$(COMPILE_DATE)\"
 RELEASE_DEFINES += -DF_CPU=16000000UL
+#TEST_DEFINES = -DPRE_POINT_DIGITS=6 -DPOST_POINT_DIGITS=8
 
 LDFLAGS_WRAP  := -Wl,-wrap,main
 LDFLAGS_CUNIT := -L/usr/local/lib -Wl,-Bstatic -lcunit -Wl,-Bdynamic
@@ -30,6 +31,7 @@ LDFLAGS     = -fPIC
 
 all: dirs release
 release: $(BROOT_RELEASE)/$(BINARY)
+test: TEST_DEFINES = -DPRE_POINT_DIGITS=6 -DPOST_POINT_DIGITS=8
 test: dirs release $(BROOT_CUNIT)/$(CUNIT_BINARY)
 
 clean:
@@ -61,9 +63,8 @@ $(BROOT_CUNIT)/$(CUNIT_BINARY): $(CUNIT_OBJ_FILES)
 # COMPILE
 $(BROOT_RELEASE)/%.o: %.c
 	@printf "BUILD \033\13301;33m-\033\13301;37m %-20s %s\033\13300;39m\n" $< $@
-	@$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -c $(CFLAGS) $(TEST_DEFINES) $< -o $@
 
 $(BROOT_CUNIT)/%.o: cunit/%.c
 	@printf "BUILD   \033\13301;33m-\033\13301;37m %-20s %s\033\13300;39m\n" $< $@
-	@$(CC) -c $(CFLAGS) $< -o $@
-
+	@$(CC) -c $(CFLAGS) $(TEST_DEFINES) $< -o $@

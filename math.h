@@ -1,19 +1,21 @@
 #ifndef __MATH_H__
 #define __MATH_H__
 
-#define PRECISION 99
+#ifndef PRE_POINT_DIGITS
+	#define PRE_POINT_DIGITS  2
+	#warning "hit!"
+#endif
+#ifndef POST_POINT_DIGITS
+	#define POST_POINT_DIGITS 200
+#endif
+
+#define PRECISION (PRE_POINT_DIGITS + POST_POINT_DIGITS)
 #define DOUBLE_PRECISION (PRECISION*2)
 
-typedef struct fpn_s {
-	uint16_t num; // before decimal point
-	uint8_t frac[PRECISION]; // after decimal point
-} fpn_t;
 
 
-typedef struct dfpn_s {
-	uint16_t num; // before decimal point
-	uint8_t frac[DOUBLE_PRECISION]; // after decimal point
-} dfpn_t;
+typedef uint8_t fpn_t[PRECISION]; // little endian
+typedef uint8_t dfpn_t[DOUBLE_PRECISION]; // little endian
 
 typedef enum {
 	OK=1,
@@ -23,7 +25,7 @@ typedef enum {
 
 
 
-void longAddInto( fpn_t *a, fpn_t *b );
+error_e longAdd( fpn_t a, fpn_t b, fpn_t result );
 void longSubFrom( fpn_t *a, fpn_t *b );
 
 error_e longMultiply( fpn_t *a, fpn_t *b, fpn_t *result );

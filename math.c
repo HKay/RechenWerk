@@ -13,42 +13,39 @@
 
 
 
-static fpn_t temp1;
-static fpn_t temp2;
+//static fpn_t temp1;
+//static fpn_t temp2;
 
 
 
-// add fixed point number 'b' to 'a'
-void longAddInto( fpn_t *a, fpn_t *b ) {
+// add fixed point numbers 'a' and 'b' into 'result'
+error_e longAdd( fpn_t a, fpn_t b, fpn_t result ) {
 	int16_t i;
 	int16_t index;
 
-	a->num += b->num;
-
-	// add digit by digit from back to front
+	// add digit by digit from least to most significant
 	for( i=0; i < PRECISION; i++ ) {
-		index = PRECISION -i -1;
-		a->frac[index] += b->frac[index];
+		result[i] = a[i] + b[i];
 
 		// carry
-		if( a->frac[index] > 9 ) {
-			a->frac[index] -= 10;
+		if( result[i] > 9 ) {
+			result[i] -= 10;
 
-			if( index > 0 ) {
-				a->frac[index -1] += 1;
+			if( i < PRECISION ) {
+				result[i+1] += 1;
 			}
 			else {
-				a->num += 1;
+				return ERROR_OVERFLOW;
 			}
 		}
 	}
+	return OK;
 }
 
 
-
 // subtract 'b' from 'a'
-void longSubFrom( fpn_t *m /* minuend */, fpn_t *s /* subtrahend */ ) {
-	uint16_t i, index;
+//void longSubFrom( fpn_t *m /* minuend */, fpn_t *s /* subtrahend */ ) {
+/*	uint16_t i, index;
 	uint8_t carry = 0; // subtract '-1' from the next digit
 
 	// 'm' must be larger than 's' to avoid negative values
@@ -124,7 +121,9 @@ error_e longMultiply( fpn_t *a, fpn_t *b, fpn_t *result ) {
 		}
 	}
 
-	return ERROR_OVERFLOW;
+	result->num = a->num * b->num;
+
+	return OK;
 }
 
 
@@ -160,4 +159,6 @@ void _longDivBy10( fpn_t *a ) {
 
 
 
+
+*/
 

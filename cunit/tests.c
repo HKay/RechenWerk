@@ -33,19 +33,18 @@ int __wrap_main (void) {
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "0 to fpn    ", test_fpn0) ) {
+	if ( NULL == CU_add_test(pSuite, "0 to fpn          ", test_fpn0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "5 to fpn    ", test_fpn1) ) {
+	if ( NULL == CU_add_test(pSuite, "5.3 to fpn        ", test_fpn1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "65535 to fpn", test_fpn2) ) {
+	if ( NULL == CU_add_test(pSuite, "65535.65535 to fpn", test_fpn2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-
 
 
 
@@ -70,56 +69,56 @@ int __wrap_main (void) {
 
 
 
+/*
 
-	pSuite = CU_add_suite("longAddInto()", init_longAddInto_suite, clean_longAddInto_suite);
+	pSuite = CU_add_suite("longAddInto()", init_longAdd_suite, clean_longAdd_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "1+2 = 3    ", test_addInto0_0) ) {
+	if ( NULL == CU_add_test(pSuite, "1+2 = 3    ", test_add0_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0+0 = 0    ", test_addInto0_1) ) {
+	if ( NULL == CU_add_test(pSuite, "0+0 = 0    ", test_add0_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "65535+1 = 0", test_addInto0_2) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-
-	if ( NULL == CU_add_test(pSuite, "0.0...01 + 0.0...02 = 0.0...03", test_addInto1_0) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "0.09 + 0.01 = 0.10            ", test_addInto1_1) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "0.09 + 0.02 = 0.11            ", test_addInto1_2) ) {
+	if ( NULL == CU_add_test(pSuite, "65535+1 = 0", test_add0_2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "0.1 + 0.9 = 1.0          ", test_addInto2_0) ) {
+	if ( NULL == CU_add_test(pSuite, "0.0...01 + 0.0...02 = 0.0...03", test_add1_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0.9...99 + 0.0...01 = 1.0", test_addInto2_1) ) {
+	if ( NULL == CU_add_test(pSuite, "0.09 + 0.01 = 0.10            ", test_add1_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "1.2 + 0.9 = 2.1          ", test_addInto2_2) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "65535.9 + 0.2 = 0.0      ", test_addInto2_3) ) {
+	if ( NULL == CU_add_test(pSuite, "0.09 + 0.02 = 0.11            ", test_add1_2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
+	if ( NULL == CU_add_test(pSuite, "0.1 + 0.9 = 1.0          ", test_add2_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.9...99 + 0.0...01 = 1.0", test_add2_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "1.2 + 0.9 = 2.1          ", test_add2_2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "65535.9 + 0.2 = 0.0      ", test_add2_3) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
 
 
 	pSuite = CU_add_suite("longSubFrom()", init_longSubFrom_suite, clean_longSubFrom_suite);
@@ -242,7 +241,7 @@ int __wrap_main (void) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-
+*/
 
 
 	// Run all tests using the CUnit Basic interface

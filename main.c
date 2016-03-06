@@ -19,26 +19,30 @@
 fpn_t e;
 fpn_t lastTerm;
 
+/*
 
-void longPrint( fpn_t *a ) {
+void longPrint( fpn_t a ) {
 	uint32_t i;
 
-	printf( "%i.", a->num );
-	for( i=0; i< PRECISION; i++ ) {
-		printf( "%i", a->frac[i] );
+	for( i=(PRECISION-PRE_POINT_DIGITS); i<PRECISION; i++ ) {
+		printf( "%i", a[i] );
+	}
+	printf( "." );
+	for( i=0; i<(PRECISION-PRE_POINT_DIGITS); i++ ) {
+		printf( "%i", a[i] );
 	}
 	printf( "\n" );
 }
-
+*/
 
 
 int main( void ) {
 	uint32_t i;
 
-	toFpn( 0, &e);
+//	toFpn( 0, &e);
 
-	e.num = 1;
-	lastTerm.num = 1;
+//	e.num = 1;
+	lastTerm[PRECISION-1] = 1;
 
 
 

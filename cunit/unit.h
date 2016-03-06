@@ -1,6 +1,11 @@
 #ifndef __UNIT_H__
 #define __UNIT_H__
 
+
+
+void longPrint( fpn_t a );
+void longPrint2( fpn_t a );
+
 int init_fpn_suite( void );
 int clean_fpn_suite( void );
 void test_fpn0( void );
@@ -13,18 +18,18 @@ void test_isLarger0( void );
 void test_isLarger1( void );
 void test_isLarger2( void );
 
-int init_longAddInto_suite( void );
-int clean_longAddInto_suite( void );
-void test_addInto0_0( void );
-void test_addInto0_1( void );
-void test_addInto0_2( void );
-void test_addInto1_0( void );
-void test_addInto1_1( void );
-void test_addInto1_2( void );
-void test_addInto2_0( void );
-void test_addInto2_1( void );
-void test_addInto2_2( void );
-void test_addInto2_3( void );
+int init_longAdd_suite( void );
+int clean_longAdd_suite( void );
+void test_add0_0( void );
+void test_add0_1( void );
+void test_add0_2( void );
+void test_add1_0( void );
+void test_add1_1( void );
+void test_add1_2( void );
+void test_add2_0( void );
+void test_add2_1( void );
+void test_add2_2( void );
+void test_add2_3( void );
 
 int init_longSubFrom_suite( void );
 int clean_longSubFrom_suite( void );
