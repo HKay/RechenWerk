@@ -69,7 +69,6 @@ int __wrap_main (void) {
 
 
 
-/*
 
 	pSuite = CU_add_suite("longAddInto()", init_longAdd_suite, clean_longAdd_suite);
 	if (NULL == pSuite) {
@@ -81,11 +80,11 @@ int __wrap_main (void) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0+0 = 0    ", test_add0_1) ) {
+	if ( NULL == CU_add_test(pSuite, "1+0 = 1    ", test_add0_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "65535+1 = 0", test_add0_2) ) {
+	if ( NULL == CU_add_test(pSuite, "65535+65535=OVERFLOW ERROR", test_add0_2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
@@ -115,11 +114,12 @@ int __wrap_main (void) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "65535.9 + 0.2 = 0.0      ", test_add2_3) ) {
+	if ( NULL == CU_add_test(pSuite, "...999.900... + 0.1 = OVERFLOW ERROR", test_add2_3) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
+/*
 
 	pSuite = CU_add_suite("longSubFrom()", init_longSubFrom_suite, clean_longSubFrom_suite);
 	if (NULL == pSuite) {

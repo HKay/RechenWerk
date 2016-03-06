@@ -32,220 +32,347 @@ int clean_longAdd_suite( void ) {
 
 void test_add0_0( void ) {
 	// adding before the decimal point
-	fpn_t zero;
 	fpn_t one;
-	fpn_t tmp;
+	fpn_t two;
+	fpn_t p1;
+	fpn_t p2;
 	fpn_t res;
-
-	toFpn( 0, 0, zero );
-	toFpn( 1, 0, one );
+	fpn_t expect;
+	error_e e;
 
 	// 1+2=3
-	toFpn( 2, 0, tmp );
-	toFpn( 3, 0, res );
-	longAdd( tmp, one, tmp );
-	CU_ASSERT_EQUAL( isLarger(tmp, res), 0 );
-longPrint( tmp );
+	toFpn( 1, 0, one );
+	toFpn( 1, 0, p1 );
+	toFpn( 2, 0, two );
+	toFpn( 2, 0, p2 );
+	toFpn( 3, 0, expect );
+
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, one), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, two), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, two), 0 );
+
 }
 
 
-/*
 void test_add0_1( void ) {
+	// adding zero
 	fpn_t zero;
 	fpn_t one;
-	fpn_t tmp;
+	fpn_t p1;
+	fpn_t p2;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
 
-	// 0+0=0
-	toFpn( 0, &tmp );
-	toFpn( 0, &res );
-	longAdd( &tmp, &zero, &tmp );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 );
+	// 1+0=1
+	toFpn( 1, 0, one );
+	toFpn( 1, 0, p1 );
+	toFpn( 0, 0, zero );
+	toFpn( 0, 0, p2 );
+	toFpn( 1, 0, expect );
+
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, one),  0 );
+	CU_ASSERT_EQUAL( isLarger(p2, zero), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, zero), 0 );
 }
 
 
 
 void test_add0_2( void ) {
-	fpn_t zero;
-	fpn_t one;
-	fpn_t tmp;
+	// pre point overflow check
+	fpn_t big;
+	fpn_t p1;
+	fpn_t p2;
 	fpn_t res;
+	error_e e;
 
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
+	toFpn( 65535, 0, p1 );
+	toFpn( 65535, 0, p2 );
+	toFpn( 65535, 0, big );
+	// 65535+65535=ERROR_OVERFLOW
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, ERROR_OVERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p1, big), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, big), 0 );
 
-	// 65535+1=0
-	toFpn( 65535, &tmp );
-	toFpn( 0, &res );
-	longAdd( &tmp, &one, &tmp );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 );
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, ERROR_OVERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p2, big), 0 );
 }
 
 
 
 void test_add1_0( void ) {
 	// adding after the decimal point
-	fpn_t tmp1;
-	fpn_t tmp2;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t small;
+	fpn_t bigger;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// adding without carry
 	// 0.0...01 + 0.0...02 = 0.0...03
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 0, p2 );
+	toFpn( 0, 0, small );
+	toFpn( 0, 0, bigger );
+	toFpn( 0, 0, expect );
 
-	tmp1.frac[PRECISION-1] = 1;
-	tmp2.frac[PRECISION-1] = 2;
-	res.frac[PRECISION-1] = 3;
-	longAdd( &tmp1, &tmp2, &tmp1 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 );
+	p1[0] = 1;
+	p2[0] = 2;
+	small[0] = 1;
+	bigger[0] = 2;
+	expect[0] = 3;
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
 }
 
 
 
 void test_add1_1( void ) {
 	// adding after the decimal point
-	fpn_t tmp1;
-	fpn_t tmp2;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t small;
+	fpn_t bigger;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// adding with carry to zero
 	// 0.09 + 0.01 = 0.10
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 0, p2 );
+	toFpn( 0, 0, small );
+	toFpn( 0, 0, bigger );
+	toFpn( 0, 0, expect );
 
-	tmp1.frac[1] = 9;
-	tmp2.frac[1] = 1;
-	res.frac[0] = 1;
-	longAdd( &tmp1, &tmp2, &tmp1 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 );
+	p1[1] = 1;
+	small[1] = 1;
+	p2[1] = 9;
+	bigger[1] = 9;
+	expect[0] = 1;
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
 }
 
 
 
 void test_add1_2( void ) {
-	fpn_t tmp1;
-	fpn_t tmp2;
+	fpn_t p1;
+	fpn_t bigger;
+	fpn_t p2;
+	fpn_t small;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// adding with carry to non-zero
 	// 0.09 + 0.02 = 0.11
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 0, bigger );
+	toFpn( 0, 0, p2 );
+	toFpn( 0, 0, small );
+	toFpn( 0, 0, expect );
 
-	tmp1.frac[1] = 9;
-	tmp2.frac[1] = 2;
-	res.frac[0] = 1;
-	res.frac[1] = 1;
-	longAddInto( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 );
+	p1[1] = 9;
+	bigger[1] = 9;
+	p2[1] = 2;
+	small[1] = 2;
+	expect[0] = 1;
+	expect[1] = 1;
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, bigger), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 }
 
 
 
-void test_addInto2_0( void ) {
-	// adding before and after the decimal point
+void test_add2_0( void ) {
+	// carry jumps the decimalpoint
 	uint16_t i;
-	fpn_t zero;
-	fpn_t one;
-	fpn_t tmp1;
-	fpn_t tmp2;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t small;
+	fpn_t bigger;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
-
-
-	// carry jumps the decimal point to zero after point
 	// 0.1 + 0.9 = 1.0
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
+	toFpn( 0, 1, p1 );
+	toFpn( 0, 1, small );
+	toFpn( 0, 9, p2 );
+	toFpn( 0, 9, bigger );
+	toFpn( 1, 0, expect );
 
-	tmp1.frac[0] = 1;
-	tmp2.frac[0] = 9;
-	res.num = 1;
-	longAddInto( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 )
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
 }
 
 
-void test_addInto2_1( void ) {
+
+void test_add2_1( void ) {
 	// adding before and after the decimal point
 	uint16_t i;
-	fpn_t zero;
-	fpn_t one;
-	fpn_t tmp1;
-	fpn_t tmp2;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t tiny;
+	fpn_t big;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 0, p2 );
+	toFpn( 0, 0, tiny );
+	toFpn( 0, 0, big );
+	toFpn( 1, 0, expect );
 
 	// carry jumps the decimal point after maximum shift
 	// 0.9...99 + 0.0...01 = 1.0
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
 
-	for( i=0; i<PRECISION; i++ ) {
-		tmp1.frac[i] = 9;
+	for( i=0; i<POST_POINT_DIGITS; i++ ) {
+		p1[i] = 9;
+		big[i] = 9;
 	}
-	tmp2.frac[PRECISION-1] = 1;
-	res.num = 1;
-	longAddInto( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 )
+	p2[0] = 1;
+	tiny[0] = 1;
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, big), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, tiny), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, tiny), 0 );
 }
 
 
 
-void test_addInto2_2( void ) {
-	fpn_t tmp1;
-	fpn_t tmp2;
+void test_add2_2( void ) {
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t bigger;
+	fpn_t small;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// carry jumps the decimal point to non-zero after point
 	// 1.2 + 0.9 = 2.1
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
+	toFpn( 1, 2, p1 );
+	toFpn( 1, 2, bigger );
+	toFpn( 0, 9, p2 );
+	toFpn( 0, 9, small );
+	toFpn( 2, 1, expect );
 
-	tmp1.frac[0] = 2;
-	tmp1.num = 1;
-	tmp2.frac[0] = 9;
-	res.num = 2;
-	res.frac[0] = 1;
-	longAddInto( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 )
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, bigger), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 }
 
 
 
-void test_addInto2_3( void ) {
-	fpn_t tmp1;
-	fpn_t tmp2;
+void test_add2_3( void ) {
+	uint16_t i;
+	fpn_t p1;
+	fpn_t pretty_big;
+	fpn_t p2;
+	fpn_t small;
 	fpn_t res;
+	error_e e;
 
-	// carry jumps integer(uint16_t) boundaries
-	// 65535.9 + 0.2 = 0.0
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
+	// carry leads to overflow
+	// ...999.900... + 0.1 = ERROR_OVERFLOW
+	toFpn( 0, 9, p1 );
+	toFpn( 0, 9, pretty_big );
+	toFpn( 0, 1, p2 );
+	toFpn( 0, 1, small );
 
-	tmp1.frac[0] = 9;
-	tmp1.num = 65535;
-	tmp2.frac[0] = 2;
-	res.frac[0] = 1;
-	longAddInto( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 )
+	for( i=0; i<PRE_POINT_DIGITS; i++ ) {
+		p1[POST_POINT_DIGITS+i]=9;
+		pretty_big[POST_POINT_DIGITS+i]=9;
+	}
+
+	e = longAdd( p1, p2, res );
+	CU_ASSERT_EQUAL( e, ERROR_OVERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p1, pretty_big), 0 )
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 )
+
+	// modify one of the parameters
+	e = longAdd( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, ERROR_OVERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 }
 
+/*
 
 
 //
