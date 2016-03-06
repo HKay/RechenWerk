@@ -22,6 +22,8 @@ void longPrint( fpn_t a ) {
 	printf( "\n" );
 }
 
+
+
 void longPrint2( fpn_t a ) {
 	uint32_t i;
 
@@ -29,6 +31,25 @@ void longPrint2( fpn_t a ) {
 	printf( "\n" );
 	for( i=0; i<PRECISION; i++ ) {
 		printf( "%i", a[i] );
+	}
+	printf( "\n" );
+}
+
+
+
+void statusPrint( error_e e ) {
+	switch( e ) {
+		case OK:
+			printf(">>OK<<");
+		break;
+
+		case ERROR_OVERFLOW:
+			printf(">>OVERFLOW<<");
+		break;
+
+		case ERROR_UNDERFLOW:
+			printf(">>OVERFLOW<<");
+		break;
 	}
 	printf( "\n" );
 }

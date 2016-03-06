@@ -5,6 +5,7 @@
 
 void longPrint( fpn_t a );
 void longPrint2( fpn_t a );
+void statusPrint( error_e e );
 
 int init_fpn_suite( void );
 int clean_fpn_suite( void );
