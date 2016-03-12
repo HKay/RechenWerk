@@ -30,7 +30,7 @@ LDFLAGS     = -fPIC
 
 all: dirs release
 release: $(BROOT_RELEASE)/$(BINARY)
-test: TEST_DEFINES = -DPRE_POINT_DIGITS=6 -DPOST_POINT_DIGITS=8
+test: TEST_DEFINES = -DPRE_POINT_DIGITS=5 -DPOST_POINT_DIGITS=8
 test: dirs release $(BROOT_CUNIT)/$(CUNIT_BINARY)
 
 clean:
