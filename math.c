@@ -22,22 +22,30 @@
 error_e longAdd( fpn_t a, fpn_t b, fpn_t result ) {
 	int16_t i;
 	int16_t index;
+	uint8_t carry=0;
+
+	if((a != result) && (b!=result)) {
+		// the result is not to be stored in either a or b
+		toFpn( 0, 0, result );
+	}
 
 	// add digit by digit from least to most significant
 	for( i=0; i < PRECISION; i++ ) {
 		result[i] = a[i] + b[i];
+		if( carry ) {
+			result[i] += 1;
+			carry = 0;
+		}
 
 		// carry
 		if( result[i] > 9 ) {
 			result[i] -= 10;
-
-			if( i < PRECISION ) {
-				result[i+1] += 1;
-			}
-			else {
-				return ERROR_OVERFLOW;
-			}
+			carry = 1;
 		}
+	}
+	if( carry ) {
+		// still one carry left over that doesn't fit into the memory
+		return ERROR_OVERFLOW;
 	}
 	return OK;
 }

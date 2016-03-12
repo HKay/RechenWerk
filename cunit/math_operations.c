@@ -58,7 +58,6 @@ void test_add0_0( void ) {
 	CU_ASSERT_EQUAL( e, OK );
 	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
 	CU_ASSERT_EQUAL( isLarger(p2, two), 0 );
-
 }
 
 
@@ -95,6 +94,8 @@ void test_add0_1( void ) {
 
 
 
+// This check only passes when
+// PRE_POINT_DIGITS < 6
 void test_add0_2( void ) {
 	// pre point overflow check
 	fpn_t big;
@@ -176,22 +177,23 @@ void test_add1_1( void ) {
 	toFpn( 0, 0, bigger );
 	toFpn( 0, 0, expect );
 
-	p1[1] = 1;
-	small[1] = 1;
-	p2[1] = 9;
-	bigger[1] = 9;
-	expect[0] = 1;
+	p1[POST_POINT_DIGITS-2] = 9;
+	bigger[POST_POINT_DIGITS-2] = 9;
+	p2[POST_POINT_DIGITS-2] = 1;
+	small[POST_POINT_DIGITS-2] = 1;
+	expect[POST_POINT_DIGITS-1] = 1;
+
 	e = longAdd( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
 	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
-	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
-	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, bigger), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 
 	// modify one of the parameters
 	e = longAdd( p1, p2, p1 );
 	CU_ASSERT_EQUAL( e, OK );
 	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
-	CU_ASSERT_EQUAL( isLarger(p2, bigger), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 }
 
 
@@ -213,12 +215,13 @@ void test_add1_2( void ) {
 	toFpn( 0, 0, small );
 	toFpn( 0, 0, expect );
 
-	p1[1] = 9;
-	bigger[1] = 9;
-	p2[1] = 2;
-	small[1] = 2;
-	expect[0] = 1;
-	expect[1] = 1;
+	p1[POST_POINT_DIGITS-2] = 9;
+	bigger[POST_POINT_DIGITS-2] = 9;
+	p2[POST_POINT_DIGITS-2] = 2;
+	small[POST_POINT_DIGITS-2] = 2;
+	expect[POST_POINT_DIGITS-1] = 1;
+	expect[POST_POINT_DIGITS-2] = 1;
+
 	e = longAdd( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
 	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
