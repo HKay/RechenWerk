@@ -13,6 +13,12 @@ void test_fpn0( void );
 void test_fpn1( void );
 void test_fpn2( void );
 
+int init_dfpn_suite( void );
+int clean_dfpn_suite( void );
+void test_dfpn0( void );
+void test_dfpn1( void );
+void test_dfpn2( void );
+
 int init_isLarger_suite( void );
 int clean_isLarger_suite( void );
 void test_isLarger0( void );

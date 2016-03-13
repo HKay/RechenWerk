@@ -48,6 +48,27 @@ int __wrap_main (void) {
 
 
 
+	pSuite = CU_add_suite("toDFpn()", init_dfpn_suite, clean_dfpn_suite);
+	if (NULL == pSuite) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+	if ( NULL == CU_add_test(pSuite, "0 to dfpn          ", test_dfpn0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "5.3 to dfpn        ", test_dfpn1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "65535.65535 to dfpn", test_dfpn2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+
 	pSuite = CU_add_suite("isLarger()", init_isLarger_suite, clean_isLarger_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
@@ -66,7 +87,6 @@ int __wrap_main (void) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-
 
 
 
@@ -118,6 +138,7 @@ int __wrap_main (void) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
+
 
 
 	pSuite = CU_add_suite("longSubFrom()", init_longSub_suite, clean_longSub_suite);

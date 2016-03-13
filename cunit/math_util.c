@@ -97,6 +97,89 @@ void test_fpn2( void ) {
 
 
 //
+// dfpn()
+//
+int init_dfpn_suite( void ) {
+	return 0; // success
+}
+
+
+
+int clean_dfpn_suite( void ) {
+	return 0; // success
+}
+
+
+
+void test_dfpn0( void ) {
+	// convert 0 to fpn
+	uint16_t i;
+	error_e e;
+	dfpn_t tmp;
+	e = toDFpn(0, 0, tmp);
+
+	CU_ASSERT_EQUAL( e, OK );
+	// 'check' for uninitialised memory
+	for( i=0; i < PRECISION; i++ ) {
+		CU_ASSERT_EQUAL( tmp[i], 0 );
+	}
+}
+
+
+
+void test_dfpn1( void ) {
+	// convert regular number to fpn
+	uint16_t i;
+	error_e e;
+	dfpn_t tmp;
+	e = toDFpn( 5, 3, tmp );
+
+	CU_ASSERT_EQUAL( e, OK );
+	// check for uninitialised memory
+	for( i=0; i < DOUBLE_POST_POINT_DIGITS-2; i++ ) {
+		CU_ASSERT_EQUAL( tmp[i], 0 );
+	}
+
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS-1], 3 ); // most significant post point digit
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS], 5 ); // first post point digit
+
+	// all digits after that
+	for( i=DOUBLE_POST_POINT_DIGITS+1; i < PRECISION; i++ ) {
+		CU_ASSERT_EQUAL( tmp[i], 0 );
+	}
+}
+
+
+void test_dfpn2( void ) {
+	// convert maximum number the function supports to fpn
+	uint16_t i;
+	dfpn_t tmp;
+	error_e e;
+	e = toDFpn( 0xffff, 0xffff, tmp); // 65535.65535
+	CU_ASSERT_EQUAL( e, OK );
+
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS-5], 5);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS-4], 3);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS-3], 5);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS-2], 5);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS-1], 6);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS], 5);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS+1], 3);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS+2], 5);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS+3], 5);
+	CU_ASSERT_EQUAL( tmp[DOUBLE_POST_POINT_DIGITS+4], 6);
+	// check for uninitialised memory
+	for( i=0; i < DOUBLE_POST_POINT_DIGITS-6; i++ ) {
+		CU_ASSERT_EQUAL( tmp[i], 0 );
+	}
+	for( i=POST_POINT_DIGITS+5; i < PRECISION; i++ ) {
+		CU_ASSERT_EQUAL( tmp[i], 0 );
+	}
+}
+
+
+
+//
 // isLarger( )
 //
 int init_isLarger_suite( void ) {
