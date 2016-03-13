@@ -375,173 +375,260 @@ void test_add2_3( void ) {
 	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 }
 
-/*
 
 
 //
-// longSubFrom()
+// longSub()
 //
-int init_longSubFrom_suite( void ) {
+int init_longSub_suite( void ) {
 	return 0; // success
 }
 
 
 
-int clean_longSubFrom_suite( void ) {
+int clean_longSub_suite( void ) {
 	return 0; // success
 }
 
 
 
-void test_subFrom0_0( void ) {
+void test_sub0_0( void ) {
 	// subtracting before and after the decimal point
 	fpn_t zero;
 	fpn_t one;
-	fpn_t tmp;
-
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t expect;
+	fpn_t res;
+	error_e e;
 
 	// 1-0 = 1
-	toFpn( 1, &tmp );
+	toFpn( 1, 0, one );
+	toFpn( 1, 0, p1 );
 
-	longSubFrom( &tmp, &zero );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &one), 0 )
+	toFpn( 0, 0, zero );
+	toFpn( 0, 0, p2 );
+
+	toFpn( 1, 0, expect );
+
+
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, one), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, zero), 0 );
+
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, zero), 0 );
 }
 
 
-
-void test_subFrom0_1( void ) {
+void test_sub0_1( void ) {
 	fpn_t zero;
-	fpn_t tmp;
-
-	toFpn( 0, &zero );
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// 0-0 = 0
-	toFpn( 0, &tmp );
+	toFpn( 0, 0, zero );
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 0, p2 );
+	toFpn( 0, 0, expect );
 
-	longSubFrom( &tmp, &zero );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &zero), 0 )
+
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, zero), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, zero), 0 );
+
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, zero), 0 );
 }
 
 
 
-void test_subFrom0_2( void ) {
+void test_sub0_2( void ) {
 	fpn_t zero;
 	fpn_t one;
-	fpn_t tmp;
-
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// 1-1 = 0
-	toFpn( 1, &tmp );
+	toFpn( 0, 0, zero );
+	toFpn( 1, 0, one );
+	toFpn( 1, 0, p1 );
+	toFpn( 1, 0, p2 );
+	toFpn( 0, 0, expect );
 
-	longSubFrom( &tmp, &one );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &zero), 0 )
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, one), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
+
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
 }
 
 
 
-void test_subFrom0_3( void ) {
+void test_sub0_3( void ) {
 	fpn_t zero;
 	fpn_t one;
-	fpn_t tmp;
+	fpn_t p1;
+	fpn_t p2;
 	fpn_t res;
-
-	toFpn( 0, &zero );
-	toFpn( 1, &one );
+	error_e e;
 
 	// 0-1 = 65535
-	toFpn( 0, &tmp );
-	toFpn( 65535, &res );
+	toFpn( 0, 0, zero );
+	toFpn( 0, 0, p1 );
 
-	longSubFrom( &tmp, &one );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 )
+	toFpn( 1, 0, one);
+	toFpn( 1, 0, p2 );
+
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, ERROR_UNDERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p1, zero), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
+
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, ERROR_UNDERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
 }
 
 
 
-void test_subFrom1_0( void ) {
+void test_sub1_0( void ) {
 	fpn_t zero;
-	fpn_t tmp1;
-	fpn_t tmp2;
-
-	toFpn( 0, &zero );
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t small;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// 0.1 - 0.1 = 0.0
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	tmp1.frac[0] = 1;
-	tmp2.frac[0] = 1;
+	toFpn( 0, 0, zero );
+	toFpn( 0, 1, p1 );
+	toFpn( 0, 1, p2 );
+	toFpn( 0, 1, small );
+	toFpn( 0, 0, expect );
 
-	longSubFrom( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &zero), 0 )
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
+
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 }
 
 
 
-void test_subFrom1_1( void ) {
+void test_sub1_1( void ) {
 	uint16_t i;
-	fpn_t zero;
-	fpn_t tmp1;
-	fpn_t tmp2;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t small;
+	fpn_t tiny;
 	fpn_t res;
-
-	toFpn( 0, &zero );
+	fpn_t expect;
+	error_e e;
 
 	// 0.1 - 0.0...01 = 0.099...99
-	toFpn( 0, &tmp1 );
-	toFpn( 0, &tmp2 );
-	toFpn( 0, &res );
-	tmp1.frac[0] = 1; // 0.1
-	tmp2.frac[PRECISION-1] = 1; // 0.0...01
-	for( i=1; i< PRECISION; i++ ) {
-		res.frac[i] = 9; // 0.099...99
+	toFpn( 0, 1, small );
+	toFpn( 0, 1, p1 );
+	toFpn( 0, 0, tiny );
+	toFpn( 0, 0, p2 );
+	p2[0] = 1;
+	tiny[0] = 1;
+
+	toFpn( 0, 0, expect );
+	for( i=0; i< POST_POINT_DIGITS-1; i++ ) {
+		expect[i] = 9;
 	}
 
-	longSubFrom( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 )
+
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, tiny), 0 );
+
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, tiny), 0 );
 }
 
 
 
-void test_subFrom2_0( void ) {
-	fpn_t tmp1;
-	fpn_t tmp2;
+void test_sub2_0( void ) {
+	fpn_t one;
+	fpn_t small;
+	fpn_t p1;
+	fpn_t p2;
 	fpn_t res;
+	fpn_t expect;
+	error_e e;
 
 	// 1.0 - 0.1 = 0.9
-	toFpn( 1, &tmp1 ); // 1.0
+	toFpn( 1, 0, one );
+	toFpn( 1, 0, p1 );
+	toFpn( 0, 1, small );
+	toFpn( 0, 1, p2 );
+	toFpn( 0, 9, expect );
 
-	toFpn( 0, &tmp2 );
-	tmp2.frac[0] = 1; // 0.1
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, one), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 
-	toFpn( 0, &res );
-	res.frac[0] = 9; // 0.9
-
-	longSubFrom( &tmp1, &tmp2 );
-	CU_ASSERT_EQUAL( isLarger(&tmp1, &res), 0 )
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, small), 0 );
 }
 
 
 
-void test_subFrom2_1( void ) {
+void test_sub2_1( void ) {
+	fpn_t small;
+	fpn_t p1;
+	fpn_t p2;
 	fpn_t one;
-	fpn_t tmp;
 	fpn_t res;
+	error_e e;
 
-	toFpn( 1, &one );
+	// 0.1 - 1.0 = ERROR_UNDERFLOW
+	toFpn( 0, 1, small );
+	toFpn( 0, 1, p1 );
+	toFpn( 1, 0, one );
+	toFpn( 1, 0, p2 );
 
-	// 0.1 - 1.0 = 65535.9
-	// but correct is 65535.0 (error constant)
-	toFpn( 0, &tmp );
-	tmp.frac[0] = 1; // 0.1
+	e = longSub( p1, p2, res );
+	CU_ASSERT_EQUAL( e, ERROR_UNDERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
 
-	toFpn( 0, &res );
-	res.num = 65535; // 65535.0
-
-	longSubFrom( &tmp, &one );
-	CU_ASSERT_EQUAL( isLarger(&tmp, &res), 0 )
+	e = longSub( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, ERROR_UNDERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
 }
-*/

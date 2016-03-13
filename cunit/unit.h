@@ -32,16 +32,16 @@ void test_add2_1( void );
 void test_add2_2( void );
 void test_add2_3( void );
 
-int init_longSubFrom_suite( void );
-int clean_longSubFrom_suite( void );
-void test_subFrom0_0( void );
-void test_subFrom0_1( void );
-void test_subFrom0_2( void );
-void test_subFrom0_3( void );
-void test_subFrom1_0( void );
-void test_subFrom1_1( void );
-void test_subFrom2_0( void );
-void test_subFrom2_1( void );
+int init_longSub_suite( void );
+int clean_longSub_suite( void );
+void test_sub0_0( void );
+void test_sub0_1( void );
+void test_sub0_2( void );
+void test_sub0_3( void );
+void test_sub1_0( void );
+void test_sub1_1( void );
+void test_sub2_0( void );
+void test_sub2_1( void );
 
 int init_longMul_suite( void );
 int clean_longMul_suite( void );

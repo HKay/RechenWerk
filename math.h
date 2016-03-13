@@ -3,7 +3,6 @@
 
 #ifndef PRE_POINT_DIGITS
 	#define PRE_POINT_DIGITS  2
-	#warning "hit!"
 #endif
 #ifndef POST_POINT_DIGITS
 	#define POST_POINT_DIGITS 200
@@ -26,7 +25,7 @@ typedef enum {
 
 
 error_e longAdd( fpn_t a, fpn_t b, fpn_t result );
-void longSubFrom( fpn_t *a, fpn_t *b );
+error_e longSub( fpn_t minuend, fpn_t subtrahend, fpn_t result );
 
 error_e longMultiply( fpn_t *a, fpn_t *b, fpn_t *result );
 void longDivFrom( fpn_t *numerator, fpn_t *denominator );

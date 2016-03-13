@@ -119,48 +119,47 @@ int __wrap_main (void) {
 		return CU_get_error( );
 	}
 
-/*
 
-	pSuite = CU_add_suite("longSubFrom()", init_longSubFrom_suite, clean_longSubFrom_suite);
+	pSuite = CU_add_suite("longSubFrom()", init_longSub_suite, clean_longSub_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-
-	if ( NULL == CU_add_test(pSuite, "1-0 = 0                    ", test_subFrom0_0) ) {
+	if ( NULL == CU_add_test(pSuite, "1-0 = 1                    ", test_sub0_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0-0 = 0                    ", test_subFrom0_1) ) {
+	if ( NULL == CU_add_test(pSuite, "0-0 = 0                    ", test_sub0_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "1-1 = 0                    ", test_subFrom0_2) ) {
+	if ( NULL == CU_add_test(pSuite, "1-1 = 0                    ", test_sub0_2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0-1 = 65535                ", test_subFrom0_3) ) {
+	if ( NULL == CU_add_test(pSuite, "0-1 = ERROR_UNDERFLOW      ", test_sub0_3) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0.1 - 0.1 = 0.0            ", test_subFrom1_0) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "0.1 - 0.0...01 = 0.099...99", test_subFrom1_1) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "1.0 - 0.1 = 0.9            ", test_subFrom2_0) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "0.1 - 1.0 = 65535.9        ", test_subFrom2_1) ) {
+	if ( NULL == CU_add_test(pSuite, "0.1 - 0.1 = 0.0            ", test_sub1_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
+	if ( NULL == CU_add_test(pSuite, "0.1 - 0.0...01 = 0.099...99", test_sub1_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "1.0 - 0.1 = 0.9            ", test_sub2_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.1 - 1.0 = ERROR_UNDERFLOW", test_sub2_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
 
+/*
 
 	pSuite = CU_add_suite("longMulInto()", init_longMul_suite, clean_longMul_suite);
 	if (NULL == pSuite) {

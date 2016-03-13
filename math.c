@@ -51,58 +51,57 @@ error_e longAdd( fpn_t a, fpn_t b, fpn_t result ) {
 }
 
 
-// subtract 'b' from 'a'
-//void longSubFrom( fpn_t *m /* minuend */, fpn_t *s /* subtrahend */ ) {
-/*	uint16_t i, index;
+
+error_e longSub( fpn_t m /* minuend */, fpn_t s /* subtrahend */, fpn_t r /* result */ ) {
+	uint16_t i, index;
 	uint8_t carry = 0; // subtract '-1' from the next digit
 
-	// 'm' must be larger than 's' to avoid negative values
+	// this function does not support negative values
+	// 'm' must be larger than 's' to avoid just that
 	if( isLarger( m, s) == -1 ) {
-		toFpn(65535, m); // signal error
-		return;
+		return ERROR_UNDERFLOW;
+	}
+
+	if((m != r) && (s!=r)) {
+		// the result is not to be stored in either a or b
+		toFpn( 0, 0, r );
 	}
 
 	// subtract back to front
 	for( i=0; i < PRECISION; i++ ) {
-		index = (PRECISION-1) -i;
-
 		if( carry ) {
-			// we have a carry so the minuend must be larger by 1
-			if( m->frac[index] >= (s->frac[index] +1) ) {
-				carry = 0;
-				m->frac[index] -= (s->frac[index] +1);
+			if( m[i]-carry < s[i]) {
+				carry = 1;
+				r[i] = m[i]+10 -s[i] -1;
 			}
 			else {
-				carry = 1;
-				m->frac[index] += 10;
-				m->frac[index] -= (s->frac[index] +1);
+				carry = 0;
+				r[i] = m[i] -s[i] -1;
 			}
 		}
 		else {
-			if( m->frac[index] >= s->frac[index] ) {
-				carry = 0;
-				m->frac[index] -= s->frac[index];
+			if( m[i] < s[i] ) {
+				carry = 1;
+				r[i] = m[i]+10 - s[i];
 			}
 			else {
-				carry = 1;
-				m->frac[index] += 10;
-				m->frac[index] -= s->frac[index];
+				carry = 0;
+				r[i] = m[i] - s[i];
 			}
 		} // carry
 	} // for
 
-	// last digit subtracts from integer part
 	if( carry ) {
-		m->num -= (s->num +1);
+		// one carry is left over
+		// should never happen, due to check at the beginning
+		return ERROR_UNDERFLOW;
 	}
-	else {
-		m->num -= s->num; // positive by definition
-	}
-	return;
+
+	return OK;
 }
 
 
-
+/*
 error_e longMultiply( fpn_t *a, fpn_t *b, fpn_t *result ) {
 	// We need double precision to account for all the possible carries
 	uint16_t i, j;
