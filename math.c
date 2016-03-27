@@ -13,11 +13,6 @@
 
 
 
-//static fpn_t temp1;
-//static fpn_t temp2;
-
-
-
 // add fixed point numbers 'a' and 'b' into 'result'
 error_e longAdd( fpn_t a, fpn_t b, fpn_t result ) {
 	int16_t i;
@@ -101,40 +96,48 @@ error_e longSub( fpn_t m /* minuend */, fpn_t s /* subtrahend */, fpn_t r /* res
 }
 
 
-/*
-error_e longMultiply( fpn_t *a, fpn_t *b, fpn_t *result ) {
+
+error_e longMul( fpn_t a, fpn_t b, fpn_t result ) {
 	// We need double precision to account for all the possible carries
 	uint16_t i, j;
-	uint8_t digit_buf;
-	dfpn_t fpn_buf;
+	uint8_t digit_buf, carry;
+	dfpn_t buf;
 
-	toDFpn( 0, &fpn_buf );
+	toDFpn( 0, 0, buf );
 
 	for( i=0; i<PRECISION; i++ ) {
-		for( j=0; i<PRECISION; i++ ) {
+//		printf("buf: ");
+		for( j=0,carry=0; j<PRECISION; j++ ) {
+//			if( a[i] == 1 || b[j]==1) {
+//				printf("a[%i]: %i\n", i, a[i] );
+//				printf("b[%i]: %i\n", j, b[j] );
+//			}
 			// start from the very back and multiply to the front
 			// a bit further every time
-			digit_buf = a->frac[PRECISION-1 -j] * b->frac[PRECISION-1 -j];
-			fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] = fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] + digit_buf;
-			while( fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] > 9) {
-				if( (i+j) > DOUBLE_PRECISION ) { // TODO: CHECK LIMITS
-					fpn_buf.num += 1; // move carry over decimal point
-				}
-				else {
-					fpn_buf.frac[DOUBLE_PRECISION-1 -i -j -1] += 1; // move carry
-				}
-				fpn_buf.frac[DOUBLE_PRECISION-1 -i -j] -= 10;
+			digit_buf = (a[i] * b[j]) + carry;
+			carry = 0;
+			while( digit_buf > 9 ) {
+				carry += 1;
+				digit_buf -= 10;
 			}
+			buf[j+i] += digit_buf;
+//			printf("%i", buf[j+i]);
 		}
 	}
-
-	result->num = a->num * b->num;
-
+//	printf("\n");
+	// copy result
+//	printf("result= ");
+	for( i=0; i<PRECISION; i++ ) {
+//		printf("%i", result[i]);
+		result[i] = buf[i+(DOUBLE_PRECISION-PRECISION)];
+	}
+//	printf("\n");
 	return OK;
 }
 
 
 
+/*
 
 
 void longDivFrom( fpn_t *numerator, fpn_t *denominator ) {

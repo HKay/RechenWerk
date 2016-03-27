@@ -180,7 +180,6 @@ int __wrap_main (void) {
 		return CU_get_error( );
 	}
 
-/*
 
 	pSuite = CU_add_suite("longMulInto()", init_longMul_suite, clean_longMul_suite);
 	if (NULL == pSuite) {
@@ -192,16 +191,17 @@ int __wrap_main (void) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
+
 	if ( NULL == CU_add_test(pSuite, "1.0 * 0.1 = 0.1", test_mul0_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-
 	if ( NULL == CU_add_test(pSuite, "0.0 * 1.0 = 0.0", test_mul1_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
+/*
 	if ( NULL == CU_add_test(pSuite, "0.0 * 0.1 = 0.0", test_mul1_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );

@@ -14,7 +14,6 @@
 #include "unit.h"
 
 
-/*
 //
 // longMul()
 //
@@ -31,105 +30,96 @@ int clean_longMul_suite( void ) {
 
 
 void test_mul0_0( void ) {
+	fpn_t one;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t expect;
+	fpn_t res;
 	error_e e;
-	fpn_t a, b, result;
-	uint16_t i;
 
 	// 1.0 * 1.0 = 1.0
-	toFpn(1, &a);
-	toFpn(1, &b);
-	toFpn(0, &result);
+	toFpn(1, 0, one);
+	toFpn(1, 0, p1);
+	toFpn(1, 0, p2);
+	toFpn(1, 0, expect);
 
-	e = longMultiply( &a, &b, &result );
-	CU_ASSERT_EQUAL(e, OK);
+	e = longMul( p1, p2, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, one), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
 
-	CU_ASSERT_EQUAL(result.num, 1);
-	for( i=0; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(result.frac[i], 0);
-	}
-
-	// input must be unchanged
-	CU_ASSERT_EQUAL(a.num, 1);
-	for( i=0; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(a.frac[i], 0);
-	}
-
-	CU_ASSERT_EQUAL(b.num, 1);
-	for( i=0; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(b.frac[i], 0);
-	}
+	// modify one of the parameters
+	e = longMul( p1, p2, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
 }
 
 
 
 void test_mul0_1( void ) {
+	fpn_t one;
+	fpn_t p1;
+	fpn_t small;
+	fpn_t p2;
+	fpn_t res;
 	error_e e;
+
 	fpn_t a, b, result;
 	uint16_t i;
 
 	// 1.0 * 0.1 = 0.1
-	toFpn(1, &a);
+	toFpn(1, 0, one);
+	toFpn(1, 0, p1);
+	toFpn(0, 1, small);
+	toFpn(0, 1, p2);
+	toFpn(0, 1, res);
 
-	toFpn(0, &b);
-	b.frac[0] = 1;
-
-	toFpn(0, &result);
-
-	e = longMultiply( &a, &b, &result );
+	e = longMul( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, one), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, small), 0);
+	CU_ASSERT_EQUAL(isLarger(res, small), 0);
 
-	CU_ASSERT_EQUAL(result.num, 0);
-	CU_ASSERT_EQUAL(result.frac[0], 1);
-	for( i=1; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(result.frac[i], 0);
-	}
-
-	// input must be unchanged
-	CU_ASSERT_EQUAL(a.num, 1);
-	for( i=0; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(a.frac[i], 0);
-	}
-
-	CU_ASSERT_EQUAL(b.num, 0);
-	CU_ASSERT_EQUAL(b.frac[0], 1);
-	for( i=1; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(b.frac[i], 0);
-	}
+	e = longMul( p1, p2, p2 );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p2, small), 0);
+	CU_ASSERT_EQUAL(isLarger(p1, one), 0);
 }
 
 
 
 void test_mul1_0( void ) {
+	fpn_t zero;
+	fpn_t p1;
+	fpn_t one;
+	fpn_t p2;
+	fpn_t res;
 	error_e e;
-	fpn_t a, b, result;
 	uint16_t i;
 
 	// 0.0 * 1.0 = 0.0
-	toFpn(0, &a);
-	toFpn(1, &b);
-	toFpn(0, &result);
+	toFpn(0, 0, zero);
+	toFpn(0, 0, p1);
+	toFpn(1, 0, one);
+	toFpn(1, 0, p2);
+	toFpn(0, 0, res);
 
-	e = longMultiply( &a, &b, &result );
+	e = longMul( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, zero), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, one), 0);
+	CU_ASSERT_EQUAL(isLarger(res, zero), 0);
 
-	CU_ASSERT_EQUAL(result.num, 0);
-	for( i=0; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(result.frac[i], 0);
-	}
-
-	// input must be unchanged
-	CU_ASSERT_EQUAL(a.num, 0);
-	for( i=0; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(a.frac[i], 0);
-	}
-
-	CU_ASSERT_EQUAL(b.num, 1);
-	for( i=0; i<PRECISION; i++ ) {
-		CU_ASSERT_EQUAL(b.frac[i], 0);
-	}
+	e = longMul( p1, p2, p1 );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p2, one), 0);
+	CU_ASSERT_EQUAL(isLarger(p1, zero), 0);
 }
 
 
+/*
 
 void test_mul1_1( void ) {
 	error_e e;
