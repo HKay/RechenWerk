@@ -106,14 +106,7 @@ error_e longMul( fpn_t a, fpn_t b, fpn_t result ) {
 	toDFpn( 0, 0, buf );
 
 	for( i=0; i<PRECISION; i++ ) {
-//		printf("buf: ");
 		for( j=0,carry=0; j<PRECISION; j++ ) {
-//			if( a[i] == 1 || b[j]==1) {
-//				printf("a[%i]: %i\n", i, a[i] );
-//				printf("b[%i]: %i\n", j, b[j] );
-//			}
-			// start from the very back and multiply to the front
-			// a bit further every time
 			digit_buf = (a[i] * b[j]) + carry;
 			carry = 0;
 			while( digit_buf > 9 ) {
@@ -121,17 +114,19 @@ error_e longMul( fpn_t a, fpn_t b, fpn_t result ) {
 				digit_buf -= 10;
 			}
 			buf[j+i] += digit_buf;
-//			printf("%i", buf[j+i]);
+		}
+
+		if( carry ) {
+			// we are at the highest digit
+			// but still have a carry left over
+			return ERROR_OVERFLOW;
 		}
 	}
-//	printf("\n");
-	// copy result
-//	printf("result= ");
+
+
 	for( i=0; i<PRECISION; i++ ) {
-//		printf("%i", result[i]);
 		result[i] = buf[i+(DOUBLE_PRECISION-PRECISION)];
 	}
-//	printf("\n");
 	return OK;
 }
 
