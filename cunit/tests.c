@@ -239,30 +239,25 @@ int __wrap_main (void) {
 
 
 
-
-
-
-/*
-
-	pSuite = CU_add_suite("longDivFrom()", init_longDivFrom_suite, clean_longDivFrom_suite);
+	pSuite = CU_add_suite("longDiv()", init_longDiv_suite, clean_longDiv_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "divide before decimal point", test_divFrom0) ) {
+	if ( NULL == CU_add_test(pSuite, "divide before decimal point", test_div0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "divide after decimal point", test_divFrom1) ) {
+	if ( NULL == CU_add_test(pSuite, "divide after decimal point", test_div1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "divide before and after decimal point", test_divFrom2) ) {
+	if ( NULL == CU_add_test(pSuite, "divide before and after decimal point", test_div2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-*/
+
 
 
 	// Run all tests using the CUnit Basic interface

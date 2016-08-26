@@ -63,11 +63,11 @@ void test_mul3_1( void );
 void test_mul4_0( void );
 void test_mul4_1( void );
 
-int init_longDivFrom_suite( void );
-int clean_longDivFrom_suite( void );
-void test_divFrom0( void );
-void test_divFrom1( void );
-void test_divFrom2( void );
+int init_longDiv_suite( void );
+int clean_longDiv_suite( void );
+void test_div0( void );
+void test_div1( void );
+void test_div2( void );
 
 #else
 	#error DOUBLE INCLUDE OF __UNIT_H__

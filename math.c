@@ -132,22 +132,20 @@ error_e longMul( fpn_t a, fpn_t b, fpn_t result ) {
 
 
 
-/*
-
-
-void longDivFrom( fpn_t *numerator, fpn_t *denominator ) {
+error_e longDivFrom( fpn_t numerator, fpn_t denominator, fpn_t result ) {
+	error_e e;
 	uint16_t i;
-	uint16_t temp1_index;
-	uint16_t temp2_index;
 
 	for( i=0; i < PRECISION; i++ ) {
 		// numerator is supposed to be smaller than denominator by far.
 		; // TODO
 	}
+
+	return OK;
 }
 
 
-
+/*
 // shift digits right once
 void _longDivBy10( fpn_t *a ) {
 	uint16_t i;
