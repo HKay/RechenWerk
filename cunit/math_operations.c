@@ -55,6 +55,7 @@ void test_add0_0( void ) {
 	toFpn( 2, 0, two );
 	toFpn( 2, 0, p2 );
 	toFpn( 3, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longAdd( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -87,6 +88,7 @@ void test_add0_1( void ) {
 	toFpn( 0, 0, zero );
 	toFpn( 0, 0, p2 );
 	toFpn( 1, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longAdd( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -113,10 +115,12 @@ void test_add0_2( void ) {
 	fpn_t res;
 	error_e e;
 
+	// 65535+65535=ERROR_OVERFLOW
 	toFpn( 65535, 0, p1 );
 	toFpn( 65535, 0, p2 );
 	toFpn( 65535, 0, big );
-	// 65535+65535=ERROR_OVERFLOW
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
 	e = longAdd( p1, p2, res );
 	CU_ASSERT_EQUAL( e, ERROR_OVERFLOW );
 	CU_ASSERT_EQUAL( isLarger(p1, big), 0 );
@@ -147,6 +151,7 @@ void test_add1_0( void ) {
 	toFpn( 0, 0, small );
 	toFpn( 0, 0, bigger );
 	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	p1[0] = 1;
 	p2[0] = 2;
@@ -185,6 +190,7 @@ void test_add1_1( void ) {
 	toFpn( 0, 0, small );
 	toFpn( 0, 0, bigger );
 	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	p1[POST_POINT_DIGITS-2] = 9;
 	bigger[POST_POINT_DIGITS-2] = 9;
@@ -223,6 +229,7 @@ void test_add1_2( void ) {
 	toFpn( 0, 0, p2 );
 	toFpn( 0, 0, small );
 	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	p1[POST_POINT_DIGITS-2] = 9;
 	bigger[POST_POINT_DIGITS-2] = 9;
@@ -263,6 +270,7 @@ void test_add2_0( void ) {
 	toFpn( 0, 9, p2 );
 	toFpn( 0, 9, bigger );
 	toFpn( 1, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longAdd( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -295,6 +303,7 @@ void test_add2_1( void ) {
 	toFpn( 0, 0, tiny );
 	toFpn( 0, 0, big );
 	toFpn( 1, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	// carry jumps the decimal point after maximum shift
 	// 0.9...99 + 0.0...01 = 1.0
@@ -336,6 +345,7 @@ void test_add2_2( void ) {
 	toFpn( 0, 9, p2 );
 	toFpn( 0, 9, small );
 	toFpn( 2, 1, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longAdd( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -367,6 +377,7 @@ void test_add2_3( void ) {
 	toFpn( 0, 9, pretty_big );
 	toFpn( 0, 1, p2 );
 	toFpn( 0, 1, small );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	for( i=0; i<PRE_POINT_DIGITS; i++ ) {
 		p1[POST_POINT_DIGITS+i]=9;
@@ -419,6 +430,7 @@ void test_sub0_0( void ) {
 	toFpn( 0, 0, p2 );
 
 	toFpn( 1, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 
 	e = longSub( p1, p2, res );
@@ -447,6 +459,7 @@ void test_sub0_1( void ) {
 	toFpn( 0, 0, p1 );
 	toFpn( 0, 0, p2 );
 	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 
 	e = longSub( p1, p2, res );
@@ -478,6 +491,7 @@ void test_sub0_2( void ) {
 	toFpn( 1, 0, p1 );
 	toFpn( 1, 0, p2 );
 	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longSub( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -535,6 +549,7 @@ void test_sub1_0( void ) {
 	toFpn( 0, 1, p2 );
 	toFpn( 0, 1, small );
 	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longSub( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -565,6 +580,8 @@ void test_sub1_1( void ) {
 	toFpn( 0, 1, p1 );
 	toFpn( 0, 0, tiny );
 	toFpn( 0, 0, p2 );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
 	p2[0] = 1;
 	tiny[0] = 1;
 
@@ -603,6 +620,7 @@ void test_sub2_0( void ) {
 	toFpn( 0, 1, small );
 	toFpn( 0, 1, p2 );
 	toFpn( 0, 9, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longSub( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -631,6 +649,7 @@ void test_sub2_1( void ) {
 	toFpn( 0, 1, p1 );
 	toFpn( 1, 0, one );
 	toFpn( 1, 0, p2 );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longSub( p1, p2, res );
 	CU_ASSERT_EQUAL( e, ERROR_UNDERFLOW );

@@ -42,6 +42,7 @@ void test_mul0_0( void ) {
 	toFpn(1, 0, p1);
 	toFpn(1, 0, p2);
 	toFpn(1, 0, expect);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longMul( p1, p2, res );
 	CU_ASSERT_EQUAL( e, OK );
@@ -74,7 +75,7 @@ void test_mul0_1( void ) {
 	toFpn(1, 0, p1);
 	toFpn(0, 1, small);
 	toFpn(0, 1, p2);
-	toFpn(0, 1, res);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longMul( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
@@ -104,7 +105,7 @@ void test_mul1_0( void ) {
 	toFpn(0, 0, p1);
 	toFpn(1, 0, one);
 	toFpn(1, 0, p2);
-	toFpn(0, 0, res);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longMul( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
@@ -134,7 +135,7 @@ void test_mul1_1( void ) {
 	toFpn(0, 0, p1);
 	toFpn(0, 1, small);
 	toFpn(0, 1, p2);
-	toFpn(0, 0, res);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longMul( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
@@ -163,6 +164,8 @@ void test_mul2_0( void ) {
 	toFpn(0, 1, p1);
 	toFpn(0, 1, p2);
 	toFpn(0, 0, expect);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
 	expect[POST_POINT_DIGITS-2] = 1;
 
 	e = longMul( p1, p2, res );
@@ -193,6 +196,8 @@ void test_mul2_1( void ) {
 	toFpn(0, 1, p1);
 	toFpn(0, 0, p2);
 	toFpn(0, 0, tiny);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
 	p2[0] = 1;
 	tiny[0] = 1;
 
@@ -224,6 +229,8 @@ void test_mul2_2( void ) {
 	toFpn(0, 0, small);
 	toFpn(0, 0, p2);
 	toFpn(0, 1, expect);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
 	small[POST_POINT_DIGITS-2] = 1;
 	p2[POST_POINT_DIGITS-2] = 1;
 
@@ -257,6 +264,8 @@ void test_mul3_0( void ) {
 	toFpn(0, 0, small);
 	toFpn(0, 0, p2);
 	toFpn(0, 1, expect);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
 	small[POST_POINT_DIGITS-2] = 5;
 	p2[POST_POINT_DIGITS-2] = 5;
 
@@ -288,6 +297,7 @@ void test_mul3_1( void ) {
 	toFpn(0, 5, small);
 	toFpn(0, 5, p2);
 	toFpn(1, 0, expect);
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longMul( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
@@ -361,7 +371,7 @@ void test_div0_0( void ) {
 	toFpn(1, 0, p1);
 	toFpn(1, 0, p2);
 	toFpn(1, 0, expect);
-	toFpn(5, 5, res); // init with invalid value
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longDiv( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
@@ -398,7 +408,7 @@ void test_div0_1( void ) {
 	toFpn(2, 0, p1);
 	toFpn(2, 0, p2);
 	toFpn(1, 0, expect);
-	toFpn(5, 5, res); // init with invalid value
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longDiv( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
@@ -430,7 +440,7 @@ void test_div0_2( void ) {
 	toFpn(2, 0, p1);
 	toFpn(1, 0, p2);
 	toFpn(2, 0, expect);
-	toFpn(5, 5, res); // init with invalid value
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
 
 	e = longDiv( p1, p2, res );
 	CU_ASSERT_EQUAL(e, OK);
