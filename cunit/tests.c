@@ -33,15 +33,15 @@ int __wrap_main (void) {
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "0 to fpn          ", test_fpn0) ) {
+	if ( NULL == CU_add_test(pSuite, "0 to fpn           ", test_fpn0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "5.3 to fpn        ", test_fpn1) ) {
+	if ( NULL == CU_add_test(pSuite, "5.3 to fpn         ", test_fpn1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "65535.65535 to fpn", test_fpn2) ) {
+	if ( NULL == CU_add_test(pSuite, "65535.65535 to fpn ", test_fpn2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
@@ -75,11 +75,11 @@ int __wrap_main (void) {
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "differences before the decimal point", test_isLarger0) ) {
+	if ( NULL == CU_add_test(pSuite, "differences before the decimal point          ", test_isLarger0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "differences after the decimal point", test_isLarger1) ) {
+	if ( NULL == CU_add_test(pSuite, "differences after the decimal point           ", test_isLarger1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
@@ -90,47 +90,47 @@ int __wrap_main (void) {
 
 
 
-	pSuite = CU_add_suite("longAddInto()", init_longAdd_suite, clean_longAdd_suite);
+	pSuite = CU_add_suite("longAdd()", init_longAdd_suite, clean_longAdd_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "1+2 = 3    ", test_add0_0) ) {
+	if ( NULL == CU_add_test(pSuite, "1+2 = 3                             ", test_add0_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "1+0 = 1    ", test_add0_1) ) {
+	if ( NULL == CU_add_test(pSuite, "1+0 = 1                             ", test_add0_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "65535+65535=OVERFLOW ERROR", test_add0_2) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-
-	if ( NULL == CU_add_test(pSuite, "0.0...01 + 0.0...02 = 0.0...03", test_add1_0) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "0.09 + 0.01 = 0.10            ", test_add1_1) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-	if ( NULL == CU_add_test(pSuite, "0.09 + 0.02 = 0.11            ", test_add1_2) ) {
+	if ( NULL == CU_add_test(pSuite, "65535 + 65535 = OVERFLOW ERROR      ", test_add0_2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "0.1 + 0.9 = 1.0          ", test_add2_0) ) {
+	if ( NULL == CU_add_test(pSuite, "0.0...01 + 0.0...02 = 0.0...03      ", test_add1_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0.9...99 + 0.0...01 = 1.0", test_add2_1) ) {
+	if ( NULL == CU_add_test(pSuite, "0.09 + 0.01 = 0.10                  ", test_add1_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "1.2 + 0.9 = 2.1          ", test_add2_2) ) {
+	if ( NULL == CU_add_test(pSuite, "0.09 + 0.02 = 0.11                  ", test_add1_2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+	if ( NULL == CU_add_test(pSuite, "0.1 + 0.9 = 1.0                     ", test_add2_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.9...99 + 0.0...01 = 1.0           ", test_add2_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "1.2 + 0.9 = 2.1                     ", test_add2_2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
@@ -214,52 +214,52 @@ int __wrap_main (void) {
 
 
 
-	pSuite = CU_add_suite("longMulInto()", init_longMul_suite, clean_longMul_suite);
+	pSuite = CU_add_suite("longMul()", init_longMul_suite, clean_longMul_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "1.0 * 1.0 = 1.0", test_mul0_0) ) {
+	if ( NULL == CU_add_test(pSuite, "1.0 * 1.0 = 1.0                ", test_mul0_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "1.0 * 0.1 = 0.1", test_mul0_1) ) {
+	if ( NULL == CU_add_test(pSuite, "1.0 * 0.1 = 0.1                ", test_mul0_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "0.0 * 1.0 = 0.0", test_mul1_0) ) {
+	if ( NULL == CU_add_test(pSuite, "0.0 * 1.0 = 0.0                ", test_mul1_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
-	if ( NULL == CU_add_test(pSuite, "0.0 * 0.1 = 0.0", test_mul1_1) ) {
-		CU_cleanup_registry( );
-		return CU_get_error( );
-	}
-
-	if ( NULL == CU_add_test(pSuite, "0.1 * 0.1 = 0.01", test_mul2_0) ) {
+	if ( NULL == CU_add_test(pSuite, "0.0 * 0.1 = 0.0                ", test_mul1_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "0.1 * 0.0...01 = 0.0", test_mul2_1) ) {
+	if ( NULL == CU_add_test(pSuite, "0.1 * 0.1 = 0.01               ", test_mul2_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "10.0 * 0.01 = 0.1", test_mul2_2) ) {
+	if ( NULL == CU_add_test(pSuite, "0.1 * 0.0...01 = 0.0           ", test_mul2_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "2.0 * 0.05 = 0.1", test_mul3_0) ) {
+	if ( NULL == CU_add_test(pSuite, "10.0 * 0.01 = 0.1              ", test_mul2_2) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "2.0 * 0.5 = 1.0", test_mul3_1) ) {
+	if ( NULL == CU_add_test(pSuite, "2.0 * 0.05 = 0.1               ", test_mul3_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+	if ( NULL == CU_add_test(pSuite, "2.0 * 0.5 = 1.0                ", test_mul3_1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
