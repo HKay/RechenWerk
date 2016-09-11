@@ -16,7 +16,16 @@
 
 
 //
-// longAddInto()
+// this file contains tests for
+// longAdd()
+// longSub()
+// longMul10()
+// longDiv10()
+//
+
+
+//
+// longAdd()
 //
 int init_longAdd_suite( void ) {
 	return 0; // success
@@ -95,7 +104,7 @@ void test_add0_1( void ) {
 
 
 // This check only passes when
-// PRE_POINT_DIGITS < 6
+// PRE_POINT_DIGITS = 5
 void test_add0_2( void ) {
 	// pre point overflow check
 	fpn_t big;
@@ -631,4 +640,186 @@ void test_sub2_1( void ) {
 	e = longSub( p1, p2, p1 );
 	CU_ASSERT_EQUAL( e, ERROR_UNDERFLOW );
 	CU_ASSERT_EQUAL( isLarger(p2, one), 0 );
+}
+
+
+
+//
+// longMul10()
+//
+int init_longMul10_suite( void ) {
+	return 0; // success
+}
+
+
+
+int clean_longMul10_suite( void ) {
+	return 0; // success
+}
+
+
+
+// This check only passes when
+// PRE_POINT_DIGITS = 5
+void test_mul10_0( void ) {
+	// multiplying into overflow
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 10000*10=ERROR_OVERFLOW
+	toFpn( 11000, 0, p1 );
+	toFpn( 11000, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longMul10( p1, res );
+	CU_ASSERT_EQUAL( e, ERROR_OVERFLOW );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+
+	// modify one of the parameters
+	e = longMul10( p1, p1 );
+	CU_ASSERT_EQUAL( e, ERROR_OVERFLOW );
+}
+
+
+
+void test_mul10_1( void ) {
+	// multiplying 0
+	fpn_t zero;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 0*10=0
+	toFpn( 0, 0, zero );
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longMul10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, zero), 0 );
+
+	// modify one of the parameters
+	e = longMul10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_mul10_2( void ) {
+	// multiplying before the decimal point
+	fpn_t one;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 1*10=10
+	toFpn( 1, 0, one );
+	toFpn( 1, 0, p1 );
+	toFpn( 10, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longMul10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, one), 0 );
+
+	// modify one of the parameters
+	e = longMul10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_mul10_3( void ) {
+	// multiplying after the decimal point
+	fpn_t small;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 0.01*10=0.1
+	toFpn( 0, 0, small );
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 1, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	small[POST_POINT_DIGITS-2] = 1;
+	p1[POST_POINT_DIGITS-2] = 1;
+
+	e = longMul10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+
+	// modify one of the parameters
+	e = longMul10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_mul10_4( void ) {
+	// multiplying a tiny number after the decimal point
+	fpn_t p1;
+	fpn_t tiny;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 0.0....1*10 = 0.0....10
+	toFpn( 0, 0, p1 );
+	toFpn( 0, 0, tiny );
+	toFpn( 0, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	p1[0] = 1;
+	tiny[0] = 1;
+	expect[1] = 1;
+
+	e = longMul10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, tiny), 0 );
+
+	// modify one of the parameters
+	e = longMul10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_mul10_5( void ) {
+	// multiplying before decimal point and crossing the point border
+	fpn_t p1;
+	fpn_t small;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 0.1*10 = 1.0
+	toFpn( 0, 1, p1 );
+	toFpn( 0, 1, small );
+	toFpn( 1, 0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longMul10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+
+	// modify one of the parameters
+	e = longMul10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
 }

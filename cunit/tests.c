@@ -182,6 +182,38 @@ int __wrap_main (void) {
 
 
 
+	pSuite = CU_add_suite("longMul10()", init_longMul10_suite, clean_longMul10_suite);
+	if (NULL == pSuite) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "10000 * 10 = ERROR_OVERFLOW", test_mul10_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0 * 10 = 0                 ", test_mul10_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "1 * 10 = 10                ", test_mul10_2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.01 * 10 = 0.1            ", test_mul10_3) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.0...1 * 10 = 0.0...10    ", test_mul10_4) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.1 * 10 = 1.0             ", test_mul10_5) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+
 	pSuite = CU_add_suite("longMulInto()", init_longMul_suite, clean_longMul_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
@@ -245,10 +277,20 @@ int __wrap_main (void) {
 		return CU_get_error( );
 	}
 
-	if ( NULL == CU_add_test(pSuite, "divide before decimal point", test_div0) ) {
+	if ( NULL == CU_add_test(pSuite, "1.0 / 1.0 = 1.0", test_div0_0) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
 	}
+	if ( NULL == CU_add_test(pSuite, "2.0 / 1.0 = 2.0", test_div0_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "2.0 / 2.0 = 1.0", test_div0_2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
 	if ( NULL == CU_add_test(pSuite, "divide after decimal point", test_div1) ) {
 		CU_cleanup_registry( );
 		return CU_get_error( );

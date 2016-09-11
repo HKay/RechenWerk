@@ -14,9 +14,10 @@
 #define DOUBLE_PRECISION (PRE_POINT_DIGITS + DOUBLE_POST_POINT_DIGITS)
 
 
-
+// 123.456 ---> memory layout: [6][5][4].[3][2][1]
 typedef uint8_t fpn_t[PRECISION]; // little endian
 typedef uint8_t dfpn_t[DOUBLE_PRECISION]; // little endian
+
 
 typedef enum {
 	OK=1,
@@ -28,6 +29,8 @@ typedef enum {
 
 error_e longAdd( fpn_t a, fpn_t b, fpn_t result );
 error_e longSub( fpn_t minuend, fpn_t subtrahend, fpn_t result );
+error_e longMul10( fpn_t a, fpn_t result );
+error_e longDiv10( fpn_t numerator, fpn_t result );
 error_e longMul( fpn_t a, fpn_t b, fpn_t result );
 error_e longDiv( fpn_t numerator, fpn_t denominator, fpn_t result );
 

@@ -13,8 +13,13 @@
 
 
 
-// add fixed point numbers 'a' and 'b' into 'result'
+// In all math functions here output 'result'
+// can be the same variable as used as the input
+
+
+
 error_e longAdd( fpn_t a, fpn_t b, fpn_t result ) {
+	// add fixed point numbers 'a' and 'b' into 'result'
 	int16_t i;
 	int16_t index;
 	uint8_t carry=0;
@@ -97,6 +102,40 @@ error_e longSub( fpn_t m /* minuend */, fpn_t s /* subtrahend */, fpn_t r /* res
 
 
 
+error_e longMul10( fpn_t a, fpn_t result ) {
+	// since this is binary coded decimals we just have to left shift all digits
+	error_e e;
+	uint16_t i;
+
+	if( a[PRECISION-1] != 0 ) {
+		return ERROR_OVERFLOW;
+	}
+
+	for( i=PRECISION-1; i > 0; i-- ) {
+		result[i] = a[i-1];
+	}
+	result[0] = 0;
+
+	return OK;
+}
+
+
+
+error_e longDiv10( fpn_t n /* numerator */, fpn_t result ) {
+	// since this is binary coded decimals we just have to right shift all digits
+	error_e e;
+	uint16_t i;
+
+	for( i=0; i < PRECISION-1; i++ ) {
+		result[i] = n[i +1];
+	}
+	result[PRECISION-1] = 0;
+
+	return OK;
+}
+
+
+
 error_e longMul( fpn_t a, fpn_t b, fpn_t result ) {
 	// We need double precision to account for all the possible carries
 	uint16_t i, j;
@@ -145,23 +184,4 @@ error_e longDiv( fpn_t n /* numerator */, fpn_t d /* denominator */, fpn_t resul
 }
 
 
-/*
-// shift digits right once
-void _longDivBy10( fpn_t *a ) {
-	uint16_t i;
-
-	for( i=0; i < PRECISION; i++ ) {
-		a->frac[PRECISION -i] = a->frac[PRECISION -i -1];
-	}
-	// shift last digit into byte array
-	a->frac[0] = a->num % 10;
-	a->num /= 10;
-}
-
-
-
-
-
-
-*/
 
