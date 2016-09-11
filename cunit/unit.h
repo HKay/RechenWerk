@@ -65,7 +65,9 @@ void test_mul4_1( void );
 
 int init_longDiv_suite( void );
 int clean_longDiv_suite( void );
-void test_div0( void );
+void test_div0_0( void );
+void test_div0_1( void );
+void test_div0_2( void );
 void test_div1( void );
 void test_div2( void );
 

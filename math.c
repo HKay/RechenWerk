@@ -132,7 +132,7 @@ error_e longMul( fpn_t a, fpn_t b, fpn_t result ) {
 
 
 
-error_e longDivFrom( fpn_t numerator, fpn_t denominator, fpn_t result ) {
+error_e longDiv( fpn_t n /* numerator */, fpn_t d /* denominator */, fpn_t result ) {
 	error_e e;
 	uint16_t i;
 

@@ -347,9 +347,101 @@ int clean_longDiv_suite( void ) {
 
 
 
-void test_div0( void ) {
-	// TODO: IMPLEMENT
-	CU_ASSERT_EQUAL(0,1);
+void test_div0_0( void ) {
+	fpn_t one;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 1.0 / 1.0 = 1.0
+	toFpn(1, 0, one);
+
+	toFpn(1, 0, p1);
+	toFpn(1, 0, p2);
+	toFpn(1, 0, expect);
+	toFpn(5, 5, res); // init with invalid value
+
+	e = longDiv( p1, p2, res );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, one), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, one), 0);
+	CU_ASSERT_EQUAL(isLarger(res, expect), 0);
+
+	e = longDiv( p1, p2, p2 );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, one), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, one), 0);
+
+	e = longDiv( p1, p2, p1 );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, one), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, one), 0);
+}
+
+
+
+void test_div0_1( void ) {
+	fpn_t one;
+	fpn_t two;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 2.0 / 2.0 = 1.0
+	toFpn(1, 0, one);
+	toFpn(2, 0, one);
+
+	toFpn(2, 0, p1);
+	toFpn(2, 0, p2);
+	toFpn(1, 0, expect);
+	toFpn(5, 5, res); // init with invalid value
+
+	e = longDiv( p1, p2, res );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, two), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, two), 0);
+	CU_ASSERT_EQUAL(isLarger(res, expect), 0);
+
+	e = longDiv( p1, p2, p2 );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, two), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, one), 0);
+}
+
+
+
+void test_div0_2( void ) {
+	fpn_t one;
+	fpn_t two;
+	fpn_t p1;
+	fpn_t p2;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 2.0 / 1.0 = 2.0
+	toFpn(1, 0, one);
+	toFpn(2, 0, two);
+
+	toFpn(2, 0, p1);
+	toFpn(1, 0, p2);
+	toFpn(2, 0, expect);
+	toFpn(5, 5, res); // init with invalid value
+
+	e = longDiv( p1, p2, res );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, two), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, one), 0);
+	CU_ASSERT_EQUAL(isLarger(res, expect), 0);
+
+	e = longDiv( p1, p2, p2 );
+	CU_ASSERT_EQUAL(e, OK);
+	CU_ASSERT_EQUAL(isLarger(p1, two), 0);
+	CU_ASSERT_EQUAL(isLarger(p2, two), 0);
 }
 
 
