@@ -141,7 +141,7 @@ int __wrap_main (void) {
 
 
 
-	pSuite = CU_add_suite("longSubFrom()", init_longSub_suite, clean_longSub_suite);
+	pSuite = CU_add_suite("longSub()", init_longSub_suite, clean_longSub_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );
 		return CU_get_error( );
