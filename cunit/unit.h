@@ -58,6 +58,16 @@ void test_mul10_3( void );
 void test_mul10_4( void );
 void test_mul10_5( void );
 
+int init_longDiv10_suite( void );
+int clean_longDiv10_suite( void );
+void test_div10_0( void );
+void test_div10_1( void );
+void test_div10_2( void );
+void test_div10_3( void );
+void test_div10_4( void );
+void test_div10_5( void );
+void test_div10_6( void );
+
 int init_longMul_suite( void );
 int clean_longMul_suite( void );
 void test_mul0_0( void );

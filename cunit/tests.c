@@ -214,6 +214,43 @@ int __wrap_main (void) {
 
 
 
+	pSuite = CU_add_suite("longDiv10()", init_longMul10_suite, clean_longMul10_suite);
+	if (NULL == pSuite) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0 / 10 = 0       ", test_div10_0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.5 / 10 = 0.05  ", test_div10_1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "10/10 = 1.0      ", test_div10_2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "10000 / 10 = 1000", test_div10_3) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "1/10 = 0.1       ", test_div10_4) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "55555/10 = 5555.5", test_div10_5) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "0.0...1/10 = 0.0 ", test_div10_6) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+
+
 	pSuite = CU_add_suite("longMul()", init_longMul_suite, clean_longMul_suite);
 	if (NULL == pSuite) {
 		CU_cleanup_registry( );

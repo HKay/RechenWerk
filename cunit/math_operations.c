@@ -842,3 +842,211 @@ void test_mul10_5( void ) {
 	CU_ASSERT_EQUAL( e, OK );
 	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
 }
+
+
+
+//
+// longDiv10()
+//
+int init_longDiv10_suite( void ) {
+	return 0; // success
+}
+
+
+
+int clean_longDiv10_suite( void ) {
+	return 0; // success
+}
+
+
+
+void test_div10_0( void ) {
+	// dividing zero
+	fpn_t zero;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 0/10 = 0
+	toFpn( 0,0, zero );
+	toFpn( 0,0, p1 );
+	toFpn( 0,0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longDiv10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, zero), 0 );
+
+	// modify one of the parameters
+	e = longDiv10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_div10_1( void ) {
+	// dividing after the point
+	fpn_t small;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 0.5/10 = 0.05
+	toFpn( 0,5, small );
+	toFpn( 0,5, p1 );
+	toFpn( 0,0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+	expect[POST_POINT_DIGITS-2] = 5;
+
+	e = longDiv10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+
+	// modify one of the parameters
+	e = longDiv10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_div10_2( void ) {
+	// dividing before the point
+	fpn_t small;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 10/10 = 1.0
+	toFpn( 10,0, small );
+	toFpn( 10,0, p1 );
+	toFpn( 1,0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longDiv10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+
+	// modify one of the parameters
+	e = longDiv10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_div10_3( void ) {
+	// dividing big numbers
+	fpn_t big;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 10000 / 10 = 1000
+	toFpn( 10000,0, big );
+	toFpn( 10000,0, p1 );
+	toFpn( 1000,0, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longDiv10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, big), 0 );
+
+	// modify one of the parameters
+	e = longDiv10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_div10_4( void ) {
+	// dividing past the point
+	fpn_t small;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 1/10 = 0.1
+	toFpn( 1,0, small );
+	toFpn( 1,0, p1 );
+	toFpn( 0,1, expect );
+	toFpn( 999, 9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longDiv10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, small), 0 );
+
+	// modify one of the parameters
+	e = longDiv10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_div10_5( void ) {
+	// dividing past the point with huge numbers
+	fpn_t huge;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 55555/10 = 5555.5
+	toFpn( 55555,0, huge );
+	toFpn( 55555,0, p1 );
+	toFpn( 5555,5, expect );
+	toFpn( 999,9, res ); // prevent uninitialised 'res' from being right by accident
+
+	e = longDiv10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, huge), 0 );
+
+	// modify one of the parameters
+	e = longDiv10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
+
+
+
+void test_div10_6( void ) {
+	// dividing after the point with tiny numbers
+	fpn_t tiny;
+	fpn_t p1;
+	fpn_t res;
+	fpn_t expect;
+	error_e e;
+
+	// 0.0...1/10 = 0.0
+	toFpn( 0,0, tiny );
+	toFpn( 0,0, p1 );
+	toFpn( 0,0, expect );
+	toFpn( 999,9, res ); // prevent uninitialised 'res' from being right by accident
+
+	tiny[0] = 1;
+	p1[0] = 1;
+
+	e = longDiv10( p1, res );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(res, expect), 0 );
+	CU_ASSERT_EQUAL( isLarger(p1, tiny), 0 );
+
+	// modify one of the parameters
+	e = longDiv10( p1, p1 );
+	CU_ASSERT_EQUAL( e, OK );
+	CU_ASSERT_EQUAL( isLarger(p1, expect), 0 );
+}
