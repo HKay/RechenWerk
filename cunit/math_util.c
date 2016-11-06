@@ -180,6 +180,92 @@ void test_dfpn2( void ) {
 
 
 //
+// copyFpn( )
+//
+int init_copyFpn_suite( void ) {
+	return 0; // success
+}
+
+
+
+int clean_copyFpn_suite( void ) {
+	return 0; // success
+}
+
+
+
+void test_copyFpn0( void ) {
+	// copy zero
+	fpn_t zero;
+	fpn_t src, dest;
+
+	toFpn( 0,0, zero);
+	toFpn( 0,0, src);
+	toFpn( 55555,55555, dest);
+
+	copyFpn(src, dest);
+
+	CU_ASSERT_EQUAL( isLarger(dest, src), 0 );
+	CU_ASSERT_EQUAL( isLarger(src,  zero), 0 );
+}
+
+
+
+void test_copyFpn1( void ) {
+	// copy a number before the decimal point
+	fpn_t zero;
+	fpn_t big;
+	fpn_t src, dest;
+
+	toFpn( 1234,0, big);
+	toFpn( 1234,0, src);
+	toFpn( 55555,55555, dest);
+
+	copyFpn(src, dest);
+
+	CU_ASSERT_EQUAL( isLarger(dest, src), 0 );
+	CU_ASSERT_EQUAL( isLarger(src,  big), 0 );
+}
+
+
+
+void test_copyFpn2( void ) {
+	// copy a number after the decimal point
+	fpn_t zero;
+	fpn_t small;
+	fpn_t src, dest;
+
+	toFpn( 0,1, small);
+	toFpn( 0,1, src);
+	toFpn( 55555,55555, dest);
+
+	copyFpn(src, dest);
+
+	CU_ASSERT_EQUAL( isLarger(dest, src),   0 );
+	CU_ASSERT_EQUAL( isLarger(src,  small), 0 );
+}
+
+
+
+void test_copyFpn3( void ) {
+	// copy a regular number
+	fpn_t num;
+	fpn_t src, dest;
+
+	toFpn( 12,345, num);
+	toFpn( 12,345, src);
+	toFpn( 55555,55555, dest);
+
+	copyFpn(src, dest);
+
+	CU_ASSERT_EQUAL( isLarger(dest, src), 0 );
+	CU_ASSERT_EQUAL( isLarger(src, num),  0 );
+}
+
+
+
+
+//
 // isLarger( )
 //
 int init_isLarger_suite( void ) {

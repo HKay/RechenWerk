@@ -19,6 +19,14 @@ void test_dfpn0( void );
 void test_dfpn1( void );
 void test_dfpn2( void );
 
+int init_copyFpn_suite( void );
+int clean_copyFpn_suite( void );
+void test_copyFpn0( void );
+void test_copyFpn1( void );
+void test_copyFpn2( void );
+void test_copyFpn3( void );
+
+
 int init_isLarger_suite( void );
 int clean_isLarger_suite( void );
 void test_isLarger0( void );

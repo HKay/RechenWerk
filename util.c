@@ -13,6 +13,16 @@
 
 
 
+// copy a fixed point number
+void copyFpn( fpn_t src, fpn_t dest ) {
+	uint16_t i;
+	for( i=0; i<PRECISION; i++ ) {
+		dest[i] = src[i];
+	}
+}
+
+
+
 // convert number to fixed point number
 error_e toFpn( uint16_t pre, uint16_t post, fpn_t out ) {
 	// this is only used by the testsuit -> no error handling

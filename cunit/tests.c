@@ -68,6 +68,31 @@ int __wrap_main (void) {
 	}
 
 
+	pSuite = CU_add_suite("copyFpn()", init_copyFpn_suite, clean_copyFpn_suite);
+	if (NULL == pSuite) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+	if ( NULL == CU_add_test(pSuite, "copy zero", test_copyFpn0) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "copy before decimal point", test_copyFpn1) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "copy after decimal point", test_copyFpn2) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+	if ( NULL == CU_add_test(pSuite, "copy a regular number", test_copyFpn3) ) {
+		CU_cleanup_registry( );
+		return CU_get_error( );
+	}
+
+
+
 
 	pSuite = CU_add_suite("isLarger()", init_isLarger_suite, clean_isLarger_suite);
 	if (NULL == pSuite) {
