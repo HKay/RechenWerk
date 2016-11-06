@@ -22,7 +22,8 @@ typedef uint8_t dfpn_t[DOUBLE_PRECISION]; // little endian
 typedef enum {
 	OK=1,
 	ERROR_OVERFLOW=2,
-	ERROR_UNDERFLOW=3
+	ERROR_UNDERFLOW=3,
+	ERROR_DIVBYZERO=4
 } error_e;
 
 
